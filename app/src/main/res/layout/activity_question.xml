@@ -20,24 +20,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="42dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/aView"
-        android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Ответ"
-        android:id="@+id/textView3"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,7 +29,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/aView" />
+        android:layout_centerVertical="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -58,4 +40,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="36dp"
         android:onClick="next_move"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_above="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="69dp" />
+
 </RelativeLayout>

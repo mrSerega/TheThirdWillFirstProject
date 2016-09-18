@@ -21,11 +21,9 @@ public class question extends AppCompatActivity {
         mDatabaseHelper = new DatabaseHelper(this, "cards.db", null, 1);
         mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
         question=(TextView) findViewById(R.id.qViev);
-        answer=(TextView) findViewById(R.id.aView);
         Cursor cursor=mSqLiteDatabase.rawQuery("select question,answer from card where _ID like '1'",null);
         cursor.moveToFirst();
-        String back=cursor.getString(1);
-        answer.setText(back);
+        String answ=cursor.getString(1);
         String quest=cursor.getString(0);
         question.setText(quest);
 
@@ -33,6 +31,9 @@ public class question extends AppCompatActivity {
     }
     public void next_move(View v)
     {
+
+        
+
 
         Cursor cursor=mSqLiteDatabase.rawQuery("select question,answer from card where _ID like '"+value+"'",null);
         cursor.moveToFirst();
