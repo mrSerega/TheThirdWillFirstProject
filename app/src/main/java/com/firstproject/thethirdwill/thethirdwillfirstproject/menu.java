@@ -20,7 +20,7 @@ public class menu extends AppCompatActivity {
 
     public void btn_play_func(View view)
     {
-        Intent newIntent = new Intent(menu.this, question.class);
+        Intent newIntent = new Intent(menu.this, Map_Activity.class);
         startActivity(newIntent);
     }
 }

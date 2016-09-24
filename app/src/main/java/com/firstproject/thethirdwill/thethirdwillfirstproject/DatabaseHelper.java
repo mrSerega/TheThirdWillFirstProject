@@ -20,16 +20,21 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
     Context context1;
     private int i=0;
     public static final String QUESTION_COLUMN = "question";
-    public static final String ANSWER_COLUMN = "answer";// имя базы данных
+    public static final String ANSWER_COLUMN = "answer";
+    public static final String YEAR_COLUMN = "year";
+    public static final String FINISH_COLUMN = "finish";
+
+
+    // имя базы данных
     private static final String DATABASE_NAME = "cards.db";
     // версия базы данных
     private static final int DATABASE_VERSION = 1;
     // имя таблицы
-    private static final String DATABASE_TABLE = "card";
+    public static final String DATABASE_TABLE = "card";
     private static final String DATABASE_CREATE_SCRIPT = "create table "
             + DATABASE_TABLE + " (" + BaseColumns._ID
             + " integer primary key autoincrement, " + QUESTION_COLUMN
-            + " text, " + ANSWER_COLUMN + " text, "+ " integer);";
+            + " text, " + ANSWER_COLUMN + " text, "+YEAR_COLUMN+ " integer, "+FINISH_COLUMN+" integer);";
 
     DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -50,26 +55,27 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
 
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DATABASE_CREATE_SCRIPT);
+    private void readtext(SQLiteDatabase db,int year)
+    {
         ContentValues values = new ContentValues();
 
         BufferedReader reader = null;
 
 
         ArrayList list=new ArrayList();
+        String yearstr=Integer.toString(year);
+        String namefile=yearstr+".txt";
 
 
         try {
             reader = new BufferedReader(
-                    new InputStreamReader(context1.getAssets().open("questions.txt")));
+                    new InputStreamReader(context1.getAssets().open(namefile)));
 
             // do reading, usually loop until end of file reading
             String mLine;
             while ((mLine = reader.readLine()) != null) {
                 //mLine.toLowerCase();
-    //            mLine= mLine.toLowerCase();
+                //            mLine= mLine.toLowerCase();
 
 //                mLine=mLine.substring(mLine.indexOf(" ")+1,mLine.length()-1);
                 list.add(mLine);
@@ -97,10 +103,29 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
 
             values.put(DatabaseHelper.QUESTION_COLUMN,list.get(i).toString());
             values.put(DatabaseHelper.ANSWER_COLUMN,list.get(i+1).toString());
+            values.put(DatabaseHelper.YEAR_COLUMN,yearstr);
+            values.put(DatabaseHelper.FINISH_COLUMN,0);
             db.insert("card",null,values);
 
 
         }
+
+
+
+
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(DATABASE_CREATE_SCRIPT);
+        readtext(db,1960);
+        readtext(db,1970);
+        readtext(db,1980);
+        readtext(db,1990);
+        readtext(db,2000);
+
+
+
 
 
 
@@ -124,4 +149,3 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
 
 
 }
-
