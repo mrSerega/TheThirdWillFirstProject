@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.firstproject.thethirdwill.thethirdwillfirstproject.questionClass;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class question extends AppCompatActivity {
     private DatabaseHelper mDatabaseHelper;
@@ -22,6 +26,10 @@ public class question extends AppCompatActivity {
     int value=2;
     int first;
     int id;
+    int size;
+    int num=0;
+    List<questionClass> list;
+    questionClass quest;
     Integer year;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +44,26 @@ public class question extends AppCompatActivity {
         mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
         question=(TextView) findViewById(R.id.qViev);
         answer_fied=(EditText) findViewById(R.id.answer_field);
-        Cursor cursor=mSqLiteDatabase.rawQuery("select question,answer,year,_ID from card where _ID like '"+first+"' and year="+year,null);
-        cursor.moveToFirst();
-        answ=cursor.getString(1);
-        id=cursor.getInt(3);
-        String quest=cursor.getString(0);
-        question.setText(quest);
+        Cursor cursor=mSqLiteDatabase.rawQuery("select question,answer,year,_ID,finish,theme from card where year="+year,null);
+        list=new ArrayList<questionClass>();
+        while(cursor.moveToNext())
+        {
+            list.add(new questionClass(cursor));
+
+        }
+        cursor.close();
+        size=list.size();
+        for(int i=0;i<size;i++)
+        {
+            if(list.get(i).getIsAnswered()==0) {
+                num = i;
+                break;
+            }
+
+        }
+        size=list.size();
+        quest=list.get(num);
+        question.setText(quest.getQuestoin());
 
 
     }
@@ -49,39 +71,27 @@ public class question extends AppCompatActivity {
     {
 
         String edit_answ=answer_fied.getText().toString();
-        edit_answ.toLowerCase();
-        answ.toLowerCase();
-        String[] answers=answ.split(",");
-        Boolean flag=false;
-        for(int i=0;i<answers.length;i++)
-        {
-            if(answers[i].equals(edit_answ))
-            {
-                flag=true;
-                break;
-            }
-        }
-        if(flag==true) {
+
+        if(quest.isAnswerRight(edit_answ)) {
 
             ContentValues values = new ContentValues();
             values.put(DatabaseHelper.FINISH_COLUMN, 1);
             mSqLiteDatabase.update(mDatabaseHelper.DATABASE_TABLE,
                     values,
-                    mDatabaseHelper._ID+ "= ?", new String[]{Integer.toString(id)});
+                    mDatabaseHelper._ID+ "= ?", new String[]{Integer.toString(1)});
+            num++;
 
 
 
-            Cursor cursor = mSqLiteDatabase.rawQuery("select question,answer,year,_ID from card where _ID like '" + value + "' and year="+year, null);
-            cursor.moveToFirst();
-            answ = cursor.getString(1);
-            id=cursor.getInt(3);
-            String quest = cursor.getString(0);
-            question.setText(quest);
-            value++;
+
+            quest=list.get(num);
+            question.setText(quest.getQuestoin());
+            Toast toast3 = Toast.makeText(getApplicationContext(),quest.getTheme(), Toast.LENGTH_LONG);
+            toast3.show();
             answer_fied.setText("");
         }
         else
-        { Toast toast3 = Toast.makeText(getApplicationContext(),"Wrong answer", Toast.LENGTH_LONG);
+        { Toast toast3 = Toast.makeText(getApplicationContext(),Integer.toString(quest.getIsAnswered()), Toast.LENGTH_LONG);
         toast3.show();}
 
 
