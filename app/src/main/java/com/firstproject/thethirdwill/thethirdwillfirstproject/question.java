@@ -91,7 +91,7 @@ public class question extends AppCompatActivity {
             answer_fied.setText("");
         }
         else
-        { Toast toast3 = Toast.makeText(getApplicationContext(),Integer.toString(quest.getIsAnswered()), Toast.LENGTH_LONG);
+        { Toast toast3 = Toast.makeText(getApplicationContext(),"Wrong Answer", Toast.LENGTH_LONG);
         toast3.show();}
 
 
