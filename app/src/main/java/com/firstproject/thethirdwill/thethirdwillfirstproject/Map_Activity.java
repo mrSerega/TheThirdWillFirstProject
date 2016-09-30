@@ -3,6 +3,7 @@ package com.firstproject.thethirdwill.thethirdwillfirstproject;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,24 +13,24 @@ import android.widget.TextView;
 
 import java.util.Map;
 
-public class Map_Activity extends AppCompatActivity {
+public class Map_Activity extends AppCompatActivity{
     private DatabaseHelper mDatabaseHelper;
-    private SQLiteDatabase mSqLiteDatabase;
-    Button butt60;
-    Button butt70;
-    Button butt80;
-    Button butt90;
-    Button butt00;
-    Integer first60;
-    Integer first70;
-    Integer first80;
-    Integer first90;
-    Integer first00;
+    public static SQLiteDatabase mSqLiteDatabase;
+    //Button butt60;
+    //Button butt70;
+    //Button butt80;
+    //Button butt90;
+    //Button butt00;
+    public static Integer first60;
+    public static Integer first70;
+    public static Integer first80;
+    public static Integer first90;
+    public static Integer first00;
 
 
 
 
-    private void getnumbers(SQLiteDatabase db,int year)
+    public static void getnumbers(SQLiteDatabase db,int year)
     {
 
 
@@ -49,7 +50,7 @@ public class Map_Activity extends AppCompatActivity {
 
     }
 
-    private Integer getfinished(SQLiteDatabase db,Integer year)
+    public static Integer getfinished(SQLiteDatabase db,Integer year)
     {
         Cursor cursor=mSqLiteDatabase.rawQuery("select year,_ID,finish from card where year="+year+" and finish=1",null);
         Integer numb=cursor.getCount();
@@ -57,7 +58,7 @@ public class Map_Activity extends AppCompatActivity {
 
 
     }
-    private Integer getall(SQLiteDatabase db,Integer year)
+    public static Integer getall(SQLiteDatabase db,Integer year)
     {
         Cursor cursor=mSqLiteDatabase.rawQuery("select year,_ID,finish from card where year="+year,null);
         Integer numb=cursor.getCount();
@@ -73,17 +74,19 @@ public class Map_Activity extends AppCompatActivity {
 
         mDatabaseHelper = new DatabaseHelper(this, "cards.db", null, 1);
         mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
-        butt60=(Button) findViewById(R.id.button2);
-        butt70=(Button) findViewById(R.id.button3);
-        butt80=(Button) findViewById(R.id.button4);
-        butt90=(Button) findViewById(R.id.button5);
-        butt00=(Button) findViewById(R.id.button6);
-        butt60.setText("60s \n"+getfinished(mSqLiteDatabase,1960)+"/"+getall(mSqLiteDatabase,1960));
-        butt70.setText("70s \n"+getfinished(mSqLiteDatabase,1970)+"/"+getall(mSqLiteDatabase,1970));
-        butt80.setText("80s \n"+getfinished(mSqLiteDatabase,1980)+"/"+getall(mSqLiteDatabase,1980));
-        butt90.setText("90s \n"+getfinished(mSqLiteDatabase,1990)+"/"+getall(mSqLiteDatabase,1990));
-        butt00.setText("00s \n"+getfinished(mSqLiteDatabase,2000)+"/"+getall(mSqLiteDatabase,2000));
+        //butt60=(Button) findViewById(R.id.button2);
+        //butt70=(Button) findViewById(R.id.button3);
+        //butt80=(Button) findViewById(R.id.button4);
+        //butt90=(Button) findViewById(R.id.button5);
+        //butt00=(Button) findViewById(R.id.button6);
+        //butt60.setText("60s \n"+getfinished(mSqLiteDatabase,1960)+"/"+getall(mSqLiteDatabase,1960));
+        //butt70.setText("70s \n"+getfinished(mSqLiteDatabase,1970)+"/"+getall(mSqLiteDatabase,1970));
+        //butt80.setText("80s \n"+getfinished(mSqLiteDatabase,1980)+"/"+getall(mSqLiteDatabase,1980));
+        //butt90.setText("90s \n"+getfinished(mSqLiteDatabase,1990)+"/"+getall(mSqLiteDatabase,1990));
+        //butt00.setText("00s \n"+getfinished(mSqLiteDatabase,2000)+"/"+getall(mSqLiteDatabase,2000));
 
+        ViewPager pager=(ViewPager)findViewById(R.id.pager);//----------------------
+        pager.setAdapter(new MyAdapter(getSupportFragmentManager()));//-------------
 
 
 
@@ -96,8 +99,6 @@ public class Map_Activity extends AppCompatActivity {
         intent.putExtra("first",first60);
         startActivity(intent);
         finish();
-
-
     }
     public void go_to_70s(View v)
     {
