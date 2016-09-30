@@ -23,6 +23,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
     public static final String ANSWER_COLUMN = "answer";
     public static final String YEAR_COLUMN = "year";
     public static final String FINISH_COLUMN = "finish";
+    public static final String THEME_COLUMN = "theme";
+
 
 
     // имя базы данных
@@ -34,7 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
     private static final String DATABASE_CREATE_SCRIPT = "create table "
             + DATABASE_TABLE + " (" + BaseColumns._ID
             + " integer primary key autoincrement, " + QUESTION_COLUMN
-            + " text, " + ANSWER_COLUMN + " text, "+YEAR_COLUMN+ " integer, "+FINISH_COLUMN+" integer);";
+            + " text, " + THEME_COLUMN + " text, " + ANSWER_COLUMN + " text, "+YEAR_COLUMN+ " integer, "+FINISH_COLUMN+" integer);";
 
     DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -98,12 +100,13 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
             }
         }
 
-        for(int i=0;i<list.size()-1;i=i+2)
+        for(int i=0;i<list.size()-2;i=i+3)
         {
 
             values.put(DatabaseHelper.QUESTION_COLUMN,list.get(i).toString());
             values.put(DatabaseHelper.ANSWER_COLUMN,list.get(i+1).toString());
             values.put(DatabaseHelper.YEAR_COLUMN,yearstr);
+            values.put(DatabaseHelper.THEME_COLUMN,list.get(i+2).toString());
             values.put(DatabaseHelper.FINISH_COLUMN,0);
             db.insert("card",null,values);
 
